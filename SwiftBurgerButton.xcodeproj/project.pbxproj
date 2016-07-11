@@ -1,0 +1,313 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CEED2A611D32C03000826AF6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEED2A601D32C03000826AF6 /* AppDelegate.swift */; };
+		CEED2A631D32C03000826AF6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEED2A621D32C03000826AF6 /* ViewController.swift */; };
+		CEED2A661D32C03000826AF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEED2A641D32C03000826AF6 /* Main.storyboard */; };
+		CEED2A681D32C03000826AF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEED2A671D32C03000826AF6 /* Assets.xcassets */; };
+		CEED2A6B1D32C03000826AF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEED2A691D32C03000826AF6 /* LaunchScreen.storyboard */; };
+		CEED2A741D32C0FA00826AF6 /* SwiftBurgerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEED2A731D32C0FA00826AF6 /* SwiftBurgerButton.swift */; };
+		CEED2A761D32C15600826AF6 /* ViewControllerMulti.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEED2A751D32C15600826AF6 /* ViewControllerMulti.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CEED2A5D1D32C03000826AF6 /* SwiftBurgerButton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftBurgerButton.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEED2A601D32C03000826AF6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CEED2A621D32C03000826AF6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CEED2A651D32C03000826AF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CEED2A671D32C03000826AF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CEED2A6A1D32C03000826AF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CEED2A6C1D32C03000826AF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEED2A731D32C0FA00826AF6 /* SwiftBurgerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftBurgerButton.swift; sourceTree = "<group>"; };
+		CEED2A751D32C15600826AF6 /* ViewControllerMulti.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerMulti.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CEED2A5A1D32C03000826AF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CEED2A541D32C03000826AF6 = {
+			isa = PBXGroup;
+			children = (
+				CEED2A5F1D32C03000826AF6 /* SwiftBurgerButton */,
+				CEED2A5E1D32C03000826AF6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CEED2A5E1D32C03000826AF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEED2A5D1D32C03000826AF6 /* SwiftBurgerButton.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEED2A5F1D32C03000826AF6 /* SwiftBurgerButton */ = {
+			isa = PBXGroup;
+			children = (
+				CEED2A721D32C0E300826AF6 /* Class */,
+				CEED2A601D32C03000826AF6 /* AppDelegate.swift */,
+				CEED2A621D32C03000826AF6 /* ViewController.swift */,
+				CEED2A751D32C15600826AF6 /* ViewControllerMulti.swift */,
+				CEED2A641D32C03000826AF6 /* Main.storyboard */,
+				CEED2A671D32C03000826AF6 /* Assets.xcassets */,
+				CEED2A691D32C03000826AF6 /* LaunchScreen.storyboard */,
+				CEED2A6C1D32C03000826AF6 /* Info.plist */,
+			);
+			path = SwiftBurgerButton;
+			sourceTree = "<group>";
+		};
+		CEED2A721D32C0E300826AF6 /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				CEED2A731D32C0FA00826AF6 /* SwiftBurgerButton.swift */,
+			);
+			name = Class;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEED2A5C1D32C03000826AF6 /* SwiftBurgerButton */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEED2A6F1D32C03000826AF6 /* Build configuration list for PBXNativeTarget "SwiftBurgerButton" */;
+			buildPhases = (
+				CEED2A591D32C03000826AF6 /* Sources */,
+				CEED2A5A1D32C03000826AF6 /* Frameworks */,
+				CEED2A5B1D32C03000826AF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftBurgerButton;
+			productName = SwiftBurgerButton;
+			productReference = CEED2A5D1D32C03000826AF6 /* SwiftBurgerButton.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEED2A551D32C03000826AF6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = stashdump.com;
+				TargetAttributes = {
+					CEED2A5C1D32C03000826AF6 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = CEED2A581D32C03000826AF6 /* Build configuration list for PBXProject "SwiftBurgerButton" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CEED2A541D32C03000826AF6;
+			productRefGroup = CEED2A5E1D32C03000826AF6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CEED2A5C1D32C03000826AF6 /* SwiftBurgerButton */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CEED2A5B1D32C03000826AF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEED2A6B1D32C03000826AF6 /* LaunchScreen.storyboard in Resources */,
+				CEED2A681D32C03000826AF6 /* Assets.xcassets in Resources */,
+				CEED2A661D32C03000826AF6 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEED2A591D32C03000826AF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEED2A631D32C03000826AF6 /* ViewController.swift in Sources */,
+				CEED2A611D32C03000826AF6 /* AppDelegate.swift in Sources */,
+				CEED2A761D32C15600826AF6 /* ViewControllerMulti.swift in Sources */,
+				CEED2A741D32C0FA00826AF6 /* SwiftBurgerButton.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CEED2A641D32C03000826AF6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEED2A651D32C03000826AF6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CEED2A691D32C03000826AF6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEED2A6A1D32C03000826AF6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CEED2A6D1D32C03000826AF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CEED2A6E1D32C03000826AF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CEED2A701D32C03000826AF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SwiftBurgerButton/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = stashdump.com.SwiftBurgerButton;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CEED2A711D32C03000826AF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SwiftBurgerButton/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = stashdump.com.SwiftBurgerButton;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CEED2A581D32C03000826AF6 /* Build configuration list for PBXProject "SwiftBurgerButton" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEED2A6D1D32C03000826AF6 /* Debug */,
+				CEED2A6E1D32C03000826AF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEED2A6F1D32C03000826AF6 /* Build configuration list for PBXNativeTarget "SwiftBurgerButton" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEED2A701D32C03000826AF6 /* Debug */,
+				CEED2A711D32C03000826AF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CEED2A551D32C03000826AF6 /* Project object */;
+}
