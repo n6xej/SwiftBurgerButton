@@ -100,10 +100,8 @@ public class SwiftBurgerButton: UIButton {
 	@objc // invert the animation pattern
 	@IBInspectable var invertAni: Bool = false {
 		didSet {
-//			if invertAni == oldValue {
-				_rightLayer.path = self._rightPath.CGPath
-				_leftLayer.path = self._leftPath.CGPath
-//			}
+			_rightLayer.path = self._rightPath.CGPath
+			_leftLayer.path = self._leftPath.CGPath
 		}
 	}
 	
@@ -279,10 +277,10 @@ public class SwiftBurgerButton: UIButton {
 		layer.lineCap = kCALineCapRound
 		layer.fillColor = nil
 		layer.hidden = true
-		layer.actions = [
-			"strokeStart": NSNull(),
-			"strokeEnd": NSNull()
-		]
+//		layer.actions = [
+//			"strokeStart": NSNull(),
+//			"strokeEnd": NSNull()
+//		]
 
 		return layer
 	}()
@@ -334,10 +332,10 @@ public class SwiftBurgerButton: UIButton {
 		layer.lineCap = kCALineCapRound
 		layer.fillColor = nil
 		layer.hidden = true
-		layer.actions = [
-			"strokeStart": NSNull(),
-			"strokeEnd": NSNull()
-		]
+//		layer.actions = [
+//			"strokeStart": NSNull(),
+//			"strokeEnd": NSNull()
+//		]
 
 		return layer
 	}()
