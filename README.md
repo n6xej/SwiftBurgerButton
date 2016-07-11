@@ -1,6 +1,6 @@
 # SwiftBurgerButton
 Animate hamburger button that is IBDesignable and IBInspectable written in Swift 
-![ScreenShot](https://github.com/n6xej/SwiftBurgerButton/blob/master/pic0.png)
+
 ![ScreenShot](https://github.com/n6xej/SwiftBurgerButton/blob/master/image0.gif)
 ![ScreenShot](https://github.com/n6xej/SwiftBurgerButton/blob/master/pic1.png)
 
