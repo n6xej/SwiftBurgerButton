@@ -142,6 +142,8 @@ public class SwiftBurgerButton: UIButton {
 
 	// MARK: Live Render
 	override public func prepareForInterfaceBuilder() {
+		_rightLayer.path = self._rightPath.CGPath
+		_leftLayer.path = self._leftPath.CGPath
 		commonInit()
 	}
 
