@@ -7,8 +7,6 @@ Animate hamburger button that is IBDesignable and IBInspectable written in Swift
 
 ![ScreenShot](https://github.com/n6xej/SwiftBurgerButton/blob/master/pic1.png)
 
-### Known Issues
-If the cancel button view is selected via InterfaceBuilder, and the Invert Ani switch is left on default, IB will not render the button properly, even though its default value is false. To render properly, set the Invert Ani switch to false for default, or true.
 
 #MIT License
 	The MIT License (MIT)

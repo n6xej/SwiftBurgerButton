@@ -279,10 +279,6 @@ public class SwiftBurgerButton: UIButton {
 		layer.lineCap = kCALineCapRound
 		layer.fillColor = nil
 		layer.hidden = true
-//		layer.actions = [
-//			"strokeStart": NSNull(),
-//			"strokeEnd": NSNull()
-//		]
 
 		return layer
 	}()
@@ -334,10 +330,6 @@ public class SwiftBurgerButton: UIButton {
 		layer.lineCap = kCALineCapRound
 		layer.fillColor = nil
 		layer.hidden = true
-//		layer.actions = [
-//			"strokeStart": NSNull(),
-//			"strokeEnd": NSNull()
-//		]
 
 		return layer
 	}()
