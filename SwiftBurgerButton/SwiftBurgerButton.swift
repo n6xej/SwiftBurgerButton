@@ -35,28 +35,17 @@ import UIKit
 public class SwiftBurgerButton: UIButton {
 
 	private var animateDuration: CFTimeInterval = 0.5
-	
-	private var strokeWidth: CGFloat = 4.0 {
-		didSet {
-			if strokeWidth != oldValue {
-				_topLayer.lineWidth = strokeWidth
-				_middleLayer.lineWidth = strokeWidth
-				_bottomLayer.lineWidth = strokeWidth
-				_rightLayer.lineWidth = strokeWidth
-				_leftLayer.lineWidth = strokeWidth
-			}
-		}
-	}
+	private var strokeWidth: CGFloat = 4.0
 
 	@objc
 	@IBInspectable public var lineColor: UIColor = UIColor.blackColor() {
 		didSet {
-			if lineColor != oldValue {
+			if isInitialized {
+				_rightLayer.strokeColor = lineColor.CGColor
+				_leftLayer.strokeColor = lineColor.CGColor
 				_topLayer.strokeColor = lineColor.CGColor
 				_middleLayer.strokeColor = lineColor.CGColor
 				_bottomLayer.strokeColor = lineColor.CGColor
-				_leftLayer.strokeColor = lineColor.CGColor
-				_rightLayer.strokeColor = lineColor.CGColor
 			}
 		}
 	}
@@ -64,7 +53,7 @@ public class SwiftBurgerButton: UIButton {
 	@objc
 	@IBInspectable public var viewColor: UIColor = UIColor.lightGrayColor() {
 		didSet {
-			if lineColor != oldValue {
+			if isInitialized {
 				_circleLayer.fillColor = viewColor.CGColor
 			}
 		}
@@ -77,17 +66,13 @@ public class SwiftBurgerButton: UIButton {
 	@objc
 	@IBInspectable internal var isMenu: Bool = true {
 		didSet {
-			
-			if isMenu != oldValue {
-				if !isInitialized {
-					
-				}
-				else {
-					configButton()
-				}
+			if !isInitialized {
+				// If this is called before init, so can ignore
+				// commonInit() has not happened yet
 			}
-			else {
-				isInitialized = true
+			else
+			{
+				configButton()
 			}
 		}
 	}
@@ -95,36 +80,11 @@ public class SwiftBurgerButton: UIButton {
 	@objc  // alternate the animation pattern
 	@IBInspectable public var alternateAni: Bool = false
 
-	#if TARGET_INTERFACE_BUILDER
-	
+	// this keeps track of if inv path is loaded
+	// true if loaded
+	private var isInv = false
 	@objc // invert the animation pattern
-	@IBInspectable var invertAni: Bool = false {
-		didSet {
-			_rightLayer.path = self._rightPath.CGPath
-			_leftLayer.path = self._leftPath.CGPath
-		}
-	}
-	
-	#else
-	
-	@objc // invert the animation pattern
-	@IBInspectable var invertAni: Bool = false {
-		didSet {
-			
-			if invertAni != oldValue {
-				if invertAni {
-					_rightLayer.path = self._rightPathInv.CGPath
-					_leftLayer.path = self._leftPathInv.CGPath
-				}
-				else {
-					_rightLayer.path = self._rightPath.CGPath
-					_leftLayer.path = self._leftPath.CGPath
-				}
-			}
-		}
-	}
-	
-	#endif
+	@IBInspectable var invertAni: Bool = false
 
 	required public init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -140,68 +100,86 @@ public class SwiftBurgerButton: UIButton {
 		commonInit()
 	}
 
-	// MARK: Live Render
+	// MARK: Live Render #if TARGET_INTERFACE_BUILDER
 	override public func prepareForInterfaceBuilder() {
-		_rightLayer.path = self._rightPath.CGPath
-		_leftLayer.path = self._leftPath.CGPath
+		super.prepareForInterfaceBuilder()
 		commonInit()
+	}
+	
+	// the button will keep track of own state with button
+	// presses. Can programmatically set button with isMenu property
+	// but should not set in response to an event from an outlet
+	func touchUpInside(sender: UIButton, event: UIEvent) {
+		isMenu = !isMenu
 	}
 
 	private func configButton() {
 
 		if isMenu {
-			print("hamburger")
+			print("menu")
 			makeBurger()
 		} else {
 			makeCancelX()
 			print("cancel")
 		}
 	}
-
-	// the button will keep track of own state with button
-	// presses. Can programmatically set button with isMenu property
-	// but should not set in response to an event from an outlet
-	func touchUpInside(sender: UIButton, event: UIEvent) {
-		if !isInitialized {
-			isInitialized = true
+	
+	private func makeBurger() {
+		
+		if alternateAni {
+			isInv = !isInv
+			if isInv {
+				// load inverse
+				_rightLayer.path = self._rightPathInv
+				_leftLayer.path = self._leftPathInv
+			}
+			else {
+				// load normal
+				_rightLayer.path = self._rightPath
+				_leftLayer.path = self._leftPath
+			}
 		}
-
-		isMenu = !isMenu
+		
+		_middleLayer.addAnimation(_makeXforGroupMiddle, forKey: "makeaburger")
+		_topLayer.addAnimation(_makeXforGroupTop, forKey: "makeaburger")
+		_bottomLayer.addAnimation(_makeXforGroupBottom, forKey: "makeaburger")
+		_rightLayer.addAnimation(_makeXforGroupX, forKey: "makeaburger")
+		_leftLayer.addAnimation(_makeXforGroupX, forKey: "makeaburger")
 	}
-
-	private func CGPointMakeWithScale(x: CGFloat, y: CGFloat, inverse: Bool? = false) -> CGPoint {
-
-		let ORIGINALSIZE: CGFloat = 50
-
-		var foo = x / ORIGINALSIZE
-		foo *= frame.size.width
-
-		var foo1 = y / ORIGINALSIZE
-
-		if inverse! {
-			foo1 = (ORIGINALSIZE - y) / ORIGINALSIZE
+	
+	private func makeCancelX() {
+		
+		if alternateAni {
+			isInv = !isInv
+			if isInv {
+				// load inverse
+				_rightLayer.path = self._rightPathInv
+				_leftLayer.path = self._leftPathInv
+			}
+			else {
+				// load normal
+				_rightLayer.path = self._rightPath
+				_leftLayer.path = self._leftPath
+			}
 		}
-
-		foo1 *= frame.size.height
-
-		return CGPointMake(foo, foo1)
+		
+		_middleLayer.addAnimation(_makeMenuforGroupMiddle, forKey: "makeacross")
+		_topLayer.addAnimation(_makeMenuforGroupTop, forKey: "makeacross")
+		_bottomLayer.addAnimation(_makeMenuforGroupBottom, forKey: "makeacross")
+		_rightLayer.addAnimation(_makeMenuforGroupX, forKey: "makeacross")
+		_leftLayer.addAnimation(_makeMenuforGroupX, forKey: "makeacross")
+		
 	}
 	
 	private func commonInit() {
+		_loadLayers()
+		layoutSubviews()
 		
 		let space = fmin(frame.size.width, frame.size.height)
 		strokeWidth = ceil(space * 0.08)
 		
 		self.addTarget(self, action: #selector(SwiftBurgerButton.touchUpInside(_:event:)), forControlEvents: .TouchUpInside)
-		
-		#if !TARGET_INTERFACE_BUILDER
-			
-			if alternateAni || invertAni {
-				invertAni = !invertAni
-			}
-			
-		#endif
-		
+
 		if isMenu {
 			
 			// set up for menu button
@@ -211,9 +189,9 @@ public class SwiftBurgerButton: UIButton {
 			_leftLayer.strokeStart = 0.0
 			_leftLayer.strokeEnd =   msLen / lsLen
 			
-			_topLayer.path = _topPath.CGPath
-			_middleLayer.path = _middlePath.CGPath
-			_bottomLayer.path = _bottomPath.CGPath
+			_topLayer.path = _topPath
+			_middleLayer.path = _middlePath
+			_bottomLayer.path = _bottomPath
 			
 			_topLayer.hidden = false
 			_middleLayer.hidden = false
@@ -228,8 +206,8 @@ public class SwiftBurgerButton: UIButton {
 			_leftLayer.strokeStart = 1.0 - (cwLen / lsLen) - (bxLen / lsLen)
 			_leftLayer.strokeEnd =   1.0 - (bxLen / lsLen)
 			
-			_topLayer.path = _middlePath.CGPath
-			_bottomLayer.path = _middlePath.CGPath
+			_topLayer.path = _middlePath
+			_bottomLayer.path = _middlePath
 			
 			_topLayer.hidden = true
 			_middleLayer.hidden = true
@@ -238,11 +216,13 @@ public class SwiftBurgerButton: UIButton {
 			_rightLayer.hidden = false
 		}
 		
+		makeBurgerAnimations()
+		makeCancelXAnimations()
+		
 		isInitialized = true
 	}
 
-	@objc
-	public override func layoutSubviews() {
+	override public func layoutSubviews() {
 		super.layoutSubviews()
 
 		if _circleLayer.superlayer != layer {
@@ -252,7 +232,7 @@ public class SwiftBurgerButton: UIButton {
 		if _topLayer.superlayer != layer {
 			layer.addSublayer(_topLayer)
 		}
-
+		
 		if _middleLayer.superlayer != layer {
 			layer.addSublayer(_middleLayer)
 		}
@@ -269,21 +249,69 @@ public class SwiftBurgerButton: UIButton {
 			layer.addSublayer(_leftLayer)
 		}
 	}
+	
+	private var _makeXforGroupX: CAAnimationGroup!
+	private var _makeXforGroupTop: CAAnimationGroup!
+	private var _makeXforGroupMiddle: CAAnimationGroup!
+	private var _makeXforGroupBottom: CAAnimationGroup!
 
-	lazy private var _rightLayer: CAShapeLayer = {
-		let layer = CAShapeLayer()
-		layer.path      = self._rightPath.CGPath
-		layer.fillColor = self.viewColor.CGColor
-		layer.strokeColor = self.lineColor.CGColor
-		layer.lineWidth = self.strokeWidth
-		layer.lineCap = kCALineCapRound
-		layer.fillColor = nil
-		layer.hidden = true
+	private var _makeMenuforGroupX: CAAnimationGroup!
+	private var _makeMenuforGroupTop: CAAnimationGroup!
+	private var _makeMenuforGroupMiddle: CAAnimationGroup!
+	private var _makeMenuforGroupBottom: CAAnimationGroup!
+	
+	private var _rightLayer: CAShapeLayer!
+	private var _leftLayer: CAShapeLayer!
+	private var _topLayer: CAShapeLayer!
+	private var _middleLayer: CAShapeLayer!
+	private var _bottomLayer: CAShapeLayer!
+	private var _circleLayer: CAShapeLayer!
+	
+	private func _loadLayers() {
 
-		return layer
-	}()
+		_rightLayer = CAShapeLayer()
+		_rightLayer.hidden = true
+		_rightLayer.path = _rightPath
+		
+		_leftLayer = CAShapeLayer()
+		_leftLayer.hidden = true
+		_leftLayer.path = _leftPath
+		
+		_topLayer = CAShapeLayer()
+		_topLayer.path = _topPath
+		
+		_middleLayer = CAShapeLayer()
+		_middleLayer.path = _middlePath
+		
+		_bottomLayer = CAShapeLayer()
+		_bottomLayer.path = _bottomPath
+		
+		_circleLayer = CAShapeLayer()
+		_circleLayer.path = _circlePath
+		_circleLayer.strokeColor = nil
+		_circleLayer.fillColor = viewColor.CGColor
+		isInv = false
+		if invertAni {
+			_rightLayer.path = self._rightPathInv
+			_leftLayer.path = self._leftPathInv
+			isInv = true
+		}
 
-	private var _rightPath: UIBezierPath {
+		let buttonLayers = [_rightLayer, _leftLayer, _topLayer, _middleLayer, _bottomLayer]
+		
+		let space = fmin(frame.size.width, frame.size.height)
+		let strokeWidth = ceil(space * 0.08)
+		
+		for layer in buttonLayers {
+			
+			layer.fillColor = nil
+			layer.strokeColor = lineColor.CGColor
+			layer.lineWidth = strokeWidth
+			layer.lineCap = kCALineCapRound
+		}
+	}
+
+	private var _rightPath: CGPath {
 		let rightPath = UIBezierPath()
 
 		rightPath.moveToPoint(CGPointMakeWithScale(10, y: 25))
@@ -299,10 +327,10 @@ public class SwiftBurgerButton: UIButton {
 		rightPath.addCurveToPoint(CGPointMakeWithScale(38.64, y: 11.39), controlPoint1: CGPointMakeWithScale(39.15, y: 10.68), controlPoint2: CGPointMakeWithScale(38.64, y: 11.39))
 		rightPath.addLineToPoint(CGPointMakeWithScale(7, y: 43))
 
-		return rightPath
+		return rightPath.CGPath
 	}
 
-	private var _rightPathInv: UIBezierPath {
+	private var _rightPathInv: CGPath {
 		let rightPath = UIBezierPath()
 
 		rightPath.moveToPoint(CGPointMakeWithScale(10, y: 25, inverse: true))
@@ -318,23 +346,10 @@ public class SwiftBurgerButton: UIButton {
 		rightPath.addCurveToPoint(CGPointMakeWithScale(38.64, y: 11.39, inverse: true), controlPoint1: CGPointMakeWithScale(39.15, y: 10.68, inverse: true), controlPoint2: CGPointMakeWithScale(38.64, y: 11.39, inverse: true))
 		rightPath.addLineToPoint(CGPointMakeWithScale(7, y: 43, inverse: true))
 
-		return rightPath
+		return rightPath.CGPath
 	}
 
-	lazy private var _leftLayer: CAShapeLayer = {
-		let layer = CAShapeLayer()
-		layer.path      = self._leftPath.CGPath
-		layer.fillColor = self.viewColor.CGColor
-		layer.strokeColor = self.lineColor.CGColor
-		layer.lineWidth = self.strokeWidth
-		layer.lineCap = kCALineCapRound
-		layer.fillColor = nil
-		layer.hidden = true
-
-		return layer
-	}()
-
-	private var _leftPath: UIBezierPath {
+	private var _leftPath: CGPath {
 		let leftPath = UIBezierPath()
 
 		leftPath.moveToPoint(CGPointMakeWithScale(40, y: 25))
@@ -350,10 +365,10 @@ public class SwiftBurgerButton: UIButton {
 		leftPath.addCurveToPoint(CGPointMakeWithScale(11.36, y: 11.39), controlPoint1: CGPointMakeWithScale(10.85, y: 10.68), controlPoint2: CGPointMakeWithScale(11.36, y: 11.39))
 		leftPath.addLineToPoint(CGPointMakeWithScale(43, y: 43))
 
-		return leftPath
+		return leftPath.CGPath
 	}
 
-	private var _leftPathInv: UIBezierPath {
+	private var _leftPathInv: CGPath {
 		let leftPath = UIBezierPath()
 
 		leftPath.moveToPoint(CGPointMakeWithScale(40, y: 25, inverse: true))
@@ -369,123 +384,93 @@ public class SwiftBurgerButton: UIButton {
 		leftPath.addCurveToPoint(CGPointMakeWithScale(11.36, y: 11.39, inverse: true), controlPoint1: CGPointMakeWithScale(10.85, y: 10.68, inverse: true), controlPoint2: CGPointMakeWithScale(11.36, y: 11.39, inverse: true))
 		leftPath.addLineToPoint(CGPointMakeWithScale(43, y: 43, inverse: true))
 
-		return leftPath
+		return leftPath.CGPath
 	}
 
-	lazy private var _topLayer: CAShapeLayer = {
-		let layer = CAShapeLayer()
-		layer.path      = self._topPath.CGPath
-		layer.strokeColor = self.lineColor.CGColor
-		layer.lineWidth = self.strokeWidth
-		layer.lineCap = kCALineCapRound
-		layer.fillColor = nil
+	private var _topPath: CGPath {
 
-		return layer
-	}()
-
-	private var _topPath: UIBezierPath {
-
-		let topPath = UIBezierPath()
+		let path = UIBezierPath()
 
 		// top Menu line Path
-		topPath.moveToPoint(CGPointMakeWithScale(10, y: 12))
-		topPath.addLineToPoint(CGPointMakeWithScale(40, y: 12))
+		path.moveToPoint(CGPointMakeWithScale(10, y: 12))
+		path.addLineToPoint(CGPointMakeWithScale(40, y: 12))
 
-		return topPath
+		return path.CGPath
 	}
 
-	private var _topPathB: UIBezierPath {
-		let topPathB = UIBezierPath()
+	private var _topPathB: CGPath {
+		let path = UIBezierPath()
 
 		// top Menu line Bounce Path
-		topPathB.moveToPoint(CGPointMakeWithScale(10, y: 10))
-		topPathB.addLineToPoint(CGPointMakeWithScale(40, y: 10))
+		path.moveToPoint(CGPointMakeWithScale(10, y: 10))
+		path.addLineToPoint(CGPointMakeWithScale(40, y: 10))
 
-		return topPathB
+		return path.CGPath
 	}
 
-	lazy private var _middleLayer: CAShapeLayer = {
-		let layer = CAShapeLayer()
-		layer.path      = self._middlePath.CGPath
-		layer.strokeColor = self.lineColor.CGColor
-		layer.lineWidth = self.strokeWidth
-		layer.lineCap = kCALineCapRound
-		layer.fillColor = nil
+	private var _middlePath: CGPath {
 
-		return layer
-	}()
-
-	private var _middlePath: UIBezierPath {
-
-		let middlePath = UIBezierPath()
+		let path = UIBezierPath()
 
 		// middle Menu line Path
-		middlePath.moveToPoint(CGPointMakeWithScale(10, y: 25))
-		middlePath.addLineToPoint(CGPointMakeWithScale(40, y: 25))
+		path.moveToPoint(CGPointMakeWithScale(10, y: 25))
+		path.addLineToPoint(CGPointMakeWithScale(40, y: 25))
 
-		return middlePath
+		return path.CGPath
 	}
 
-	lazy private var _bottomLayer: CAShapeLayer = {
-		let layer = CAShapeLayer()
-		layer.path = self._bottomPath.CGPath
-		layer.strokeColor = self.lineColor.CGColor
-		layer.lineWidth = self.strokeWidth
-		layer.lineCap = kCALineCapRound
-		layer.fillColor = nil
+	private var _bottomPath: CGPath {
 
-		return layer
-	}()
-
-	private var _bottomPath: UIBezierPath {
-
-		let bottomPath = UIBezierPath()
+		let path = UIBezierPath()
 
 		// bottom Menu line Path
-		bottomPath.moveToPoint(CGPointMakeWithScale(10, y: 38))
-		bottomPath.addLineToPoint(CGPointMakeWithScale(40, y: 38))
+		path.moveToPoint(CGPointMakeWithScale(10, y: 38))
+		path.addLineToPoint(CGPointMakeWithScale(40, y: 38))
 
-		return bottomPath
+		return path.CGPath
 	}
 
-	private var _bottomPathB: UIBezierPath {
-		let bottomPathB = UIBezierPath()
+	private var _bottomPathB: CGPath {
+		let path = UIBezierPath()
 
 		// bottom Menu line Bounce Path
-		bottomPathB.moveToPoint(CGPointMakeWithScale(10, y: 40))
-		bottomPathB.addLineToPoint(CGPointMakeWithScale(40, y: 40))
+		path.moveToPoint(CGPointMakeWithScale(10, y: 40))
+		path.addLineToPoint(CGPointMakeWithScale(40, y: 40))
 
-		return bottomPathB
+		return path.CGPath
 	}
 
-	lazy private var _circleLayer: CAShapeLayer = {
-		let layer = CAShapeLayer()
-		layer.path      = self._circlePath.CGPath
-		layer.fillColor = self.viewColor.CGColor
-		layer.strokeColor = nil
-
-		return layer
-	}()
-
-	private var _circlePath: UIBezierPath {
+	private var _circlePath: CGPath {
 
 		let radiusScale = CGPointMakeWithScale(25, y: 25)
 
-		return UIBezierPath(arcCenter: CGPointMakeWithScale(25, y: 25), radius: fmin(radiusScale.x, radiusScale.y), startAngle: 0.0, endAngle: CGFloat(M_PI * 2.0), clockwise: true)
+		return UIBezierPath(arcCenter: CGPointMakeWithScale(25, y: 25), radius: fmin(radiusScale.x, radiusScale.y), startAngle: 0.0, endAngle: CGFloat(M_PI * 2.0), clockwise: true).CGPath
+	}
+	
+	private func CGPointMakeWithScale(x: CGFloat, y: CGFloat, inverse: Bool? = false) -> CGPoint {
+		
+		let ORIGINALSIZE: CGFloat = 50
+		
+		var foo = x / ORIGINALSIZE
+		foo *= frame.size.width
+		
+		var foo1 = y / ORIGINALSIZE
+		
+		if inverse! {
+			foo1 = (ORIGINALSIZE - y) / ORIGINALSIZE
+		}
+		
+		foo1 *= frame.size.height
+		
+		return CGPointMake(foo, foo1)
 	}
 
 	private let bxLen: CGFloat = 8.5
 	private let cwLen: CGFloat = 85.0
 	private let lsLen: CGFloat = 207.0
 	private let msLen: CGFloat = 60.0
-
-	private func makeBurger() {
-
-		#if !TARGET_INTERFACE_BUILDER
-			if alternateAni {
-				invertAni = !invertAni
-			}
-		#endif
+	
+	private func makeBurgerAnimations() {
 
 		let repeatCnt: Float = 0.0			// Float.infinity to repeat forver
 		let xTime = animateDuration * 0.6		// most of animation spent making X
@@ -528,8 +513,8 @@ public class SwiftBurgerButton: UIButton {
 
 		let ani0 = CABasicAnimation.init(keyPath: "path")
 
-		ani0.toValue = _topPathB.CGPath
-		ani0.fromValue = _middlePath.CGPath
+		ani0.toValue = _topPathB
+		ani0.fromValue = _middlePath
 		ani0.beginTime = enddur0 + dur1 + delay1
 		ani0.duration = menuBounce
 		ani0.removedOnCompletion = false
@@ -537,8 +522,8 @@ public class SwiftBurgerButton: UIButton {
 
 		let ani0B = CABasicAnimation.init(keyPath: "path")
 
-		ani0B.toValue = _topPath.CGPath
-		ani0B.fromValue = _topPathB.CGPath
+		ani0B.toValue = _topPath
+		ani0B.fromValue = _topPathB
 		ani0B.beginTime = ani0.beginTime + ani0.duration
 		ani0B.duration = firstAniTime - menuBounce
 		ani0B.removedOnCompletion = false
@@ -546,8 +531,8 @@ public class SwiftBurgerButton: UIButton {
 
 		let ani1 = CABasicAnimation.init(keyPath: "path")
 
-		ani1.toValue = _bottomPathB.CGPath
-		ani1.fromValue = _middlePath.CGPath
+		ani1.toValue = _bottomPathB
+		ani1.fromValue = _middlePath
 		ani1.beginTime = enddur0 + dur1 + delay1
 		ani1.duration = menuBounce
 		ani1.removedOnCompletion = false
@@ -555,8 +540,8 @@ public class SwiftBurgerButton: UIButton {
 
 		let ani1B = CABasicAnimation.init(keyPath: "path")
 
-		ani1B.toValue = _bottomPath.CGPath
-		ani1B.fromValue = _bottomPathB.CGPath
+		ani1B.toValue = _bottomPath
+		ani1B.fromValue = _bottomPathB
 		ani1B.beginTime = ani1.beginTime + ani1.duration
 		ani1B.duration = firstAniTime - menuBounce
 		ani1B.removedOnCompletion = false
@@ -642,16 +627,17 @@ public class SwiftBurgerButton: UIButton {
 		groupX.repeatCount = repeatCnt
 		groupX.removedOnCompletion = false
 		groupX.fillMode = kCAFillModeForwards
+		
+		_makeXforGroupX = groupX
+		_makeXforGroupTop = groupTop
+		_makeXforGroupMiddle = groupMid
+		_makeXforGroupBottom = groupBottom
 
-		_middleLayer.addAnimation(groupMid, forKey: "makeaburger")
-		_topLayer.addAnimation(groupTop, forKey: "makeaburger")
-		_bottomLayer.addAnimation(groupBottom, forKey: "makeaburger")
-		_rightLayer.addAnimation(groupX, forKey: "makeaburger")
-		_leftLayer.addAnimation(groupX, forKey: "makeaburger")
 	}
-
-	private func makeCancelX() {
-
+	
+	private func makeCancelXAnimations() {
+		
+	
 		let repeatCnt: Float = 0.0			// Float.infinity to repeat forver
 		let xTime = animateDuration * 0.6		// most of animation spent making X
 		let bounceDst =  Double(bxLen)		// the bounce distance
@@ -693,8 +679,8 @@ public class SwiftBurgerButton: UIButton {
 
 		let ani0 = CABasicAnimation.init(keyPath: "path")
 
-		ani0.fromValue = _topPath.CGPath
-		ani0.toValue = _middlePath.CGPath
+		ani0.fromValue = _topPath
+		ani0.toValue = _middlePath
 		ani0.beginTime = 0.0
 		ani0.duration = firstAniTime
 		ani0.removedOnCompletion = false
@@ -702,8 +688,8 @@ public class SwiftBurgerButton: UIButton {
 
 		let ani1 = CABasicAnimation.init(keyPath: "path")
 
-		ani1.fromValue = _bottomPath.CGPath
-		ani1.toValue = _middlePath.CGPath
+		ani1.fromValue = _bottomPath
+		ani1.toValue = _middlePath
 		ani1.beginTime = 0.0
 		ani1.duration = firstAniTime
 		ani1.removedOnCompletion = false
@@ -789,11 +775,12 @@ public class SwiftBurgerButton: UIButton {
 		groupX.repeatCount = repeatCnt
 		groupX.removedOnCompletion = false
 		groupX.fillMode = kCAFillModeForwards
+		
+		_makeMenuforGroupX = groupX
+		_makeMenuforGroupTop = groupTop
+		_makeMenuforGroupMiddle = groupMid
+		_makeMenuforGroupBottom = groupBottom
 
-		_middleLayer.addAnimation(groupMid, forKey: "makeacross")
-		_topLayer.addAnimation(groupTop, forKey: "makeacross")
-		_bottomLayer.addAnimation(groupBottom, forKey: "makeacross")
-		_rightLayer.addAnimation(groupX, forKey: "makeacross")
-		_leftLayer.addAnimation(groupX, forKey: "makeacross")
 	}
+
 }
